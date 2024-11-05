@@ -1,0 +1,1353 @@
+-- --------------------------------------------------------
+-- Host:                         auth-db1235.hstgr.io
+-- Server version:               10.6.15-MariaDB-cll-lve - MariaDB Server
+-- Server OS:                    Linux
+-- HeidiSQL Version:             12.6.0.6765
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+-- Dumping database structure for u647009962_imrpro
+CREATE DATABASE IF NOT EXISTS `u647009962_imrpro` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+USE `u647009962_imrpro`;
+
+-- Dumping structure for table u647009962_imrpro.AcademicDetails
+CREATE TABLE IF NOT EXISTS `AcademicDetails` (
+  `AcademicID` int(11) NOT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `CourseEnrolled` varchar(50) DEFAULT NULL,
+  `Program` varchar(50) DEFAULT NULL,
+  `AdmissionDate` date DEFAULT NULL,
+  `AdmissionStatus` varchar(20) DEFAULT NULL,
+  `CurrentSemester` int(11) DEFAULT NULL,
+  `GPA` decimal(3,2) DEFAULT NULL,
+  `CreditsEarned` int(11) DEFAULT NULL,
+  PRIMARY KEY (`AcademicID`),
+  KEY `StudentID` (`StudentID`),
+  CONSTRAINT `AcademicDetails_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.AcademicDetails: ~10 rows (approximately)
+INSERT INTO `AcademicDetails` (`AcademicID`, `StudentID`, `CourseEnrolled`, `Program`, `AdmissionDate`, `AdmissionStatus`, `CurrentSemester`, `GPA`, `CreditsEarned`) VALUES
+	(1, 1, 'Computer Science', 'BSc', '2019-09-01', 'Enrolled', 5, 3.50, 90),
+	(2, 2, 'Mechanical Engineering', 'BEng', '2018-09-01', 'Enrolled', 6, 3.20, 100),
+	(3, 3, 'Psychology', 'BA', '2020-09-01', 'Enrolled', 3, 3.80, 60),
+	(4, 4, 'Business Administration', 'BBA', '2017-09-01', 'Graduated', 8, 3.60, 120),
+	(5, 5, 'Biology', 'BSc', '2019-09-01', 'Enrolled', 5, 3.40, 85),
+	(6, 6, 'Mathematics', 'BSc', '2018-09-01', 'Enrolled', 6, 3.70, 95),
+	(7, 7, 'Art History', 'BA', '2020-09-01', 'Enrolled', 3, 3.10, 65),
+	(8, 8, 'Chemical Engineering', 'BEng', '2017-09-01', 'Graduated', 8, 3.90, 115),
+	(9, 9, 'Philosophy', 'BA', '2019-09-01', 'Enrolled', 5, 3.30, 80),
+	(10, 10, 'Physics', 'BSc', '2018-09-01', 'Enrolled', 6, 3.00, 105);
+
+-- Dumping structure for table u647009962_imrpro.AccessDetails
+CREATE TABLE IF NOT EXISTS `AccessDetails` (
+  `AccessID` int(11) NOT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `Username` varchar(50) DEFAULT NULL,
+  `PasswordHash` varchar(255) DEFAULT NULL,
+  `LastLoginDateTime` datetime DEFAULT NULL,
+  `AccountStatus` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`AccessID`),
+  KEY `StudentID` (`StudentID`),
+  CONSTRAINT `AccessDetails_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.AccessDetails: ~10 rows (approximately)
+INSERT INTO `AccessDetails` (`AccessID`, `StudentID`, `Username`, `PasswordHash`, `LastLoginDateTime`, `AccountStatus`) VALUES
+	(1, 1, 'alice_smith', '8b3cca2d285610289ff4423b321529a25e91ada5eb589a43d8d9a8e9e4310f2d', '2023-12-03 08:03:11', 'Active'),
+	(2, 2, 'bob_johnson', 'bcf9b34eb47aa38284b27fac025411bf6095b6a201a219362473fbbf3922db05', '2023-01-14 08:03:11', 'Suspended'),
+	(3, 3, 'carol_williams', '773d9e0754e5ea6398748c532ec1cca833a3e94ec018d933fc7db048e975b5a8', '2023-08-02 08:03:11', 'Locked'),
+	(4, 4, 'david_brown', '07a294fe258a95183642644038ab1c674118dcc6c020a301cad4d8db5bf3fbf2', '2023-03-21 08:03:11', 'Suspended'),
+	(5, 5, 'eve_davis', '37d20f436eb006959c0564d218c523ce4beef80fce3a2c5df62acdb40ad9bf92', '2023-07-02 08:03:11', 'Locked'),
+	(6, 6, 'frank_miller', '0c774062d8e6ea3dcedc27cc043e1d6d49f605d18c6b5be32cee8e6204fc4b1d', '2023-09-01 08:03:11', 'Locked'),
+	(7, 7, 'grace_wilson', '66ae92e7c241fe9fdef359b67ae87fac47e0d44770844f26d5d897112634c6d9', '2023-02-28 08:03:11', 'Suspended'),
+	(8, 8, 'henry_moore', '8ed112d55707bab9068cea4e6ecbf792f0fc7e924831746569ade093657728cb', '2023-02-27 08:03:11', 'Suspended'),
+	(9, 9, 'ivy_taylor', '4d68b337a899fb1d26f70b91fa38b35d643d3013c5f4d43608ab65dbb64f4f9b', '2023-05-28 08:03:11', 'Locked'),
+	(10, 10, 'jack_anderson', '1089a2cd5517d9191e98ad76f7375a21e9f1bdc14398ad0ddfce5820e59ed5e0', '2023-12-30 08:03:11', 'Suspended');
+
+-- Dumping structure for table u647009962_imrpro.AccessLevels
+CREATE TABLE IF NOT EXISTS `AccessLevels` (
+  `AccessLevelID` int(11) NOT NULL,
+  `AccessLevelName` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`AccessLevelID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.AccessLevels: ~11 rows (approximately)
+INSERT INTO `AccessLevels` (`AccessLevelID`, `AccessLevelName`) VALUES
+	(1, 'Student'),
+	(2, 'Faculty'),
+	(3, 'Staff'),
+	(4, 'Administrator'),
+	(5, 'IT Support'),
+	(6, 'Librarian'),
+	(7, 'Researcher'),
+	(8, 'Visitor'),
+	(9, 'Contractor'),
+	(10, 'Alumni'),
+	(11, 'Anne');
+
+-- Dumping structure for table u647009962_imrpro.ACStudyRoom
+CREATE TABLE IF NOT EXISTS `ACStudyRoom` (
+  `RoomID` int(11) NOT NULL,
+  PRIMARY KEY (`RoomID`),
+  CONSTRAINT `ACStudyRoom_ibfk_1` FOREIGN KEY (`RoomID`) REFERENCES `StudyRoom` (`RoomID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.ACStudyRoom: ~10 rows (approximately)
+INSERT INTO `ACStudyRoom` (`RoomID`) VALUES
+	(11),
+	(12),
+	(13),
+	(14),
+	(15),
+	(16),
+	(17),
+	(18),
+	(19),
+	(20);
+
+-- Dumping structure for view u647009962_imrpro.AdminView
+-- Creating temporary table to overcome VIEW dependency errors
+CREATE TABLE `AdminView` (
+	`StudentID_StudentDetails` INT(11) NOT NULL,
+	`FirstName` VARCHAR(50) NULL COLLATE 'utf8mb4_unicode_ci',
+	`LastName` VARCHAR(50) NULL COLLATE 'utf8mb4_unicode_ci',
+	`Address` VARCHAR(255) NULL COLLATE 'utf8mb4_unicode_ci',
+	`ContactNumber` VARCHAR(15) NULL COLLATE 'utf8mb4_unicode_ci',
+	`Email` VARCHAR(100) NULL COLLATE 'utf8mb4_unicode_ci',
+	`StudentID_AcademicDetails` INT(11) NULL,
+	`AcademicID` INT(11) NOT NULL,
+	`StudentID` INT(11) NULL,
+	`CourseEnrolled` VARCHAR(50) NULL COLLATE 'utf8mb4_unicode_ci',
+	`Program` VARCHAR(50) NULL COLLATE 'utf8mb4_unicode_ci',
+	`AdmissionDate` DATE NULL,
+	`AdmissionStatus` VARCHAR(20) NULL COLLATE 'utf8mb4_unicode_ci',
+	`CurrentSemester` INT(11) NULL,
+	`GPA` DECIMAL(3,2) NULL,
+	`CreditsEarned` INT(11) NULL
+) ENGINE=MyISAM;
+
+-- Dumping structure for table u647009962_imrpro.AnnouncementsTable
+CREATE TABLE IF NOT EXISTS `AnnouncementsTable` (
+  `AnnouncementID` int(11) NOT NULL,
+  `SenderID` int(11) DEFAULT NULL,
+  `AnnouncementTitle` varchar(100) DEFAULT NULL,
+  `AnnouncementContent` text DEFAULT NULL,
+  `Timestamp` datetime DEFAULT NULL,
+  PRIMARY KEY (`AnnouncementID`),
+  KEY `SenderID` (`SenderID`),
+  CONSTRAINT `AnnouncementsTable_ibfk_1` FOREIGN KEY (`SenderID`) REFERENCES `UserCredentials` (`UserID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.AnnouncementsTable: ~10 rows (approximately)
+INSERT INTO `AnnouncementsTable` (`AnnouncementID`, `SenderID`, `AnnouncementTitle`, `AnnouncementContent`, `Timestamp`) VALUES
+	(1, 4, 'Welcome Back!', 'Modified: Welcome back to the new semester!', '2024-01-01 08:00:00'),
+	(2, 4, 'Library Hours', 'Modified: New library hours have been updated.', '2024-01-02 09:00:00'),
+	(3, 4, 'Exam Schedule', 'Modified: Final exam schedule is now available.', '2024-01-03 10:00:00'),
+	(4, 4, 'Guest Lecture', 'Modified: A guest lecture on AI is scheduled for next week.', '2024-01-04 11:00:00'),
+	(5, 4, 'Career Fair', 'Modified: The annual career fair will be held next month.', '2024-01-05 12:00:00'),
+	(6, 4, 'Sports Day', 'Modified: Sports Day is scheduled for the end of the month.', '2024-01-06 13:00:00'),
+	(7, 4, 'Alumni Meet', 'Modified: Alumni meet-up will be organized soon.', '2024-01-07 14:00:00'),
+	(8, 4, 'Scholarship Applications', 'Modified: The deadline for scholarship applications is approaching.', '2024-01-08 15:00:00'),
+	(9, 4, 'Workshop on Robotics', 'Modified: A workshop on Robotics is being organized.', '2024-01-09 16:00:00'),
+	(10, 4, 'Health and Wellness', 'Modified: Join the health and wellness session next week.', '2024-01-10 17:00:00');
+
+-- Dumping structure for table u647009962_imrpro.AttendanceRecords
+CREATE TABLE IF NOT EXISTS `AttendanceRecords` (
+  `AttendanceID` int(11) NOT NULL,
+  `ScheduleID` int(11) DEFAULT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `AttendanceDate` date DEFAULT NULL,
+  `Status` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`AttendanceID`),
+  KEY `ScheduleID` (`ScheduleID`),
+  KEY `StudentID` (`StudentID`),
+  CONSTRAINT `AttendanceRecords_ibfk_1` FOREIGN KEY (`ScheduleID`) REFERENCES `ClassSchedules` (`ScheduleID`),
+  CONSTRAINT `AttendanceRecords_ibfk_2` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.AttendanceRecords: ~10 rows (approximately)
+INSERT INTO `AttendanceRecords` (`AttendanceID`, `ScheduleID`, `StudentID`, `AttendanceDate`, `Status`) VALUES
+	(1, 1, 1, '2024-01-01', 'Present'),
+	(2, 2, 2, '2024-01-01', 'Present'),
+	(3, 3, 3, '2024-01-01', 'Absent'),
+	(4, 4, 4, '2024-01-01', 'Present'),
+	(5, 5, 5, '2024-01-01', 'Late'),
+	(6, 6, 6, '2024-01-01', 'Present'),
+	(7, 7, 7, '2024-01-01', 'Absent'),
+	(8, 8, 8, '2024-01-01', 'Present'),
+	(9, 9, 9, '2024-01-01', 'Present'),
+	(10, 10, 10, '2024-01-01', 'Late');
+
+-- Dumping structure for table u647009962_imrpro.AuthorizationRules
+CREATE TABLE IF NOT EXISTS `AuthorizationRules` (
+  `RuleID` int(11) NOT NULL,
+  `AccessLevelID` int(11) DEFAULT NULL,
+  `TableName` varchar(50) DEFAULT NULL,
+  `ReadPermission` tinyint(1) DEFAULT NULL,
+  `WritePermission` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`RuleID`),
+  KEY `AccessLevelID` (`AccessLevelID`),
+  CONSTRAINT `AuthorizationRules_ibfk_1` FOREIGN KEY (`AccessLevelID`) REFERENCES `AccessLevels` (`AccessLevelID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.AuthorizationRules: ~10 rows (approximately)
+INSERT INTO `AuthorizationRules` (`RuleID`, `AccessLevelID`, `TableName`, `ReadPermission`, `WritePermission`) VALUES
+	(1, 1, 'StudentDetails', 1, 0),
+	(2, 2, 'CourseDetails', 1, 1),
+	(3, 3, 'LibraryBooks', 1, 0),
+	(4, 4, 'UserCredentials', 1, 1),
+	(5, 5, 'ITSupportTickets', 1, 1),
+	(6, 6, 'LibraryTransactions', 1, 0),
+	(7, 7, 'ResearchPapers', 1, 0),
+	(8, 8, 'EventCalendar', 1, 0),
+	(9, 9, 'MaintenanceRequests', 1, 1),
+	(10, 10, 'AlumniDirectory', 1, 0);
+
+-- Dumping structure for table u647009962_imrpro.BookDetails
+CREATE TABLE IF NOT EXISTS `BookDetails` (
+  `BookID` int(11) NOT NULL,
+  `ISBN` varchar(13) DEFAULT NULL,
+  `Title` varchar(255) DEFAULT NULL,
+  `Author` varchar(100) DEFAULT NULL,
+  `Genre` varchar(50) DEFAULT NULL,
+  `PublicationYear` int(11) DEFAULT NULL,
+  `AvailabilityStatus` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`BookID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.BookDetails: ~10 rows (approximately)
+INSERT INTO `BookDetails` (`BookID`, `ISBN`, `Title`, `Author`, `Genre`, `PublicationYear`, `AvailabilityStatus`) VALUES
+	(1, '978-3-16-1484', 'The Great Gatsby', 'F. Scott Fitzgerald', 'Novel', 1925, 'Available'),
+	(2, '978-0-14-1439', 'Pride and Prejudice', 'Jane Austen', 'Romance', 1813, 'Checked Out'),
+	(3, '978-1-56619-9', 'To Kill a Mockingbird', 'Harper Lee', 'Fiction', 1960, 'Available'),
+	(4, '978-0-451-527', '1984', 'George Orwell', 'Dystopian', 1949, 'Available'),
+	(5, '978-0-7432-73', 'The Da Vinci Code', 'Dan Brown', 'Mystery', 2003, 'Checked Out'),
+	(6, '978-0-141-036', 'The Hobbit', 'J.R.R. Tolkien', 'Fantasy', 1937, 'Available'),
+	(7, '978-0-670-813', 'Life of Pi', 'Yann Martel', 'Adventure', 2001, 'Available'),
+	(8, '978-0-312-427', 'Twilight', 'Stephenie Meyer', 'Fantasy', 2005, 'Checked Out'),
+	(9, '978-0-06-1120', 'Brave New World', 'Aldous Huxley', 'Dystopian', 1932, 'Available'),
+	(10, '978-1-5011-26', 'The Alchemist', 'Paulo Coelho', 'Fiction', 1988, 'Checked Out');
+
+-- Dumping structure for table u647009962_imrpro.Borrow
+CREATE TABLE IF NOT EXISTS `Borrow` (
+  `LoanID` int(11) NOT NULL,
+  `BorrowDate` date DEFAULT NULL,
+  `DueDate` date DEFAULT NULL,
+  PRIMARY KEY (`LoanID`),
+  CONSTRAINT `Borrow_ibfk_1` FOREIGN KEY (`LoanID`) REFERENCES `Loan` (`LoanID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.Borrow: ~10 rows (approximately)
+INSERT INTO `Borrow` (`LoanID`, `BorrowDate`, `DueDate`) VALUES
+	(1, '2022-01-01', '2022-01-15'),
+	(2, '2022-02-01', '2022-02-15'),
+	(3, '2022-03-01', '2022-03-15'),
+	(4, '2022-04-01', '2022-04-15'),
+	(5, '2022-05-01', '2022-05-15'),
+	(6, '2022-06-01', '2022-06-15'),
+	(7, '2022-07-01', '2022-07-15'),
+	(8, '2022-08-01', '2022-08-15'),
+	(9, '2022-09-01', '2022-09-15'),
+	(10, '2022-10-01', '2022-10-15');
+
+-- Dumping structure for table u647009962_imrpro.BorrowingRecords
+CREATE TABLE IF NOT EXISTS `BorrowingRecords` (
+  `BorrowingID` int(11) NOT NULL AUTO_INCREMENT,
+  `StudentID` int(11) DEFAULT NULL,
+  `BookID` int(11) DEFAULT NULL,
+  `BorrowDate` date DEFAULT NULL,
+  `DueDate` date NOT NULL,
+  `ReturnDate` varchar(50) NOT NULL,
+  `ReturnStatus` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`BorrowingID`),
+  KEY `StudentID` (`StudentID`),
+  KEY `BookID` (`BookID`),
+  CONSTRAINT `BorrowingRecords_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`),
+  CONSTRAINT `BorrowingRecords_ibfk_2` FOREIGN KEY (`BookID`) REFERENCES `BookDetails` (`BookID`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.BorrowingRecords: ~10 rows (approximately)
+INSERT INTO `BorrowingRecords` (`BorrowingID`, `StudentID`, `BookID`, `BorrowDate`, `DueDate`, `ReturnDate`, `ReturnStatus`) VALUES
+	(1, 1, 9, '2024-01-01', '2024-01-02', '2024-01-31', 'returned'),
+	(2, 1, 1, '2024-01-26', '2024-03-07', '2024-01-31', 'returned'),
+	(3, 2, 7, '2024-01-27', '2024-02-09', '2024-01-31', 'returned'),
+	(4, 3, 4, '2024-01-31', '2024-02-14', '2024-01-31', 'returned'),
+	(5, 4, 6, '2024-01-16', '2024-01-26', '2024-01-31', 'returned'),
+	(6, 5, 5, '2024-01-17', '2024-01-13', '2024-01-31', 'returned'),
+	(7, 6, 6, '2024-01-22', '2024-01-31', '2024-01-31', 'returned'),
+	(8, 7, 4, '2024-01-09', '2024-01-19', '2024-01-31', 'returned'),
+	(9, 8, 4, '2024-01-09', '2024-01-25', '2024-01-31', 'returned'),
+	(10, 9, 5, '2024-01-12', '2024-01-31', '2024-01-31', 'returned');
+
+-- Dumping structure for function u647009962_imrpro.CalculateAge
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for function u647009962_imrpro.CalculateGPA
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for table u647009962_imrpro.ClassSchedules
+CREATE TABLE IF NOT EXISTS `ClassSchedules` (
+  `ScheduleID` int(11) NOT NULL,
+  `CourseCode` varchar(20) DEFAULT NULL,
+  `ClassDate` date DEFAULT NULL,
+  `StartTime` time DEFAULT NULL,
+  `EndTime` time DEFAULT NULL,
+  `Location` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ScheduleID`),
+  KEY `CourseCode` (`CourseCode`),
+  CONSTRAINT `ClassSchedules_ibfk_1` FOREIGN KEY (`CourseCode`) REFERENCES `CourseDetails` (`CourseCode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.ClassSchedules: ~10 rows (approximately)
+INSERT INTO `ClassSchedules` (`ScheduleID`, `CourseCode`, `ClassDate`, `StartTime`, `EndTime`, `Location`) VALUES
+	(1, 'ART208', '2024-01-15', '09:00:00', '11:00:00', 'Room A'),
+	(2, 'BIO307', '2024-01-16', '13:30:00', '15:30:00', 'Room B'),
+	(3, 'CHE204', '2024-01-17', '10:00:00', '12:00:00', 'Room C'),
+	(4, 'CSC101', '2024-01-18', '14:00:00', '16:00:00', 'Room D'),
+	(5, 'ENG105', '2024-01-19', '11:30:00', '13:30:00', 'Room E'),
+	(6, 'HIS206', '2024-01-20', '08:45:00', '10:45:00', 'Room F'),
+	(7, 'MTH202', '2024-01-21', '12:15:00', '14:15:00', 'Room G'),
+	(8, 'PHY303', '2024-01-22', '15:00:00', '17:00:00', 'Room H'),
+	(9, 'PSY309', '2024-01-23', '09:30:00', '11:30:00', 'Room I'),
+	(10, 'SOC210', '2024-01-23', '09:30:00', '10:45:00', 'Room X');
+
+-- Dumping structure for table u647009962_imrpro.CoCurricularActivities
+CREATE TABLE IF NOT EXISTS `CoCurricularActivities` (
+  `ActivityID` int(11) NOT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `ActivityName` varchar(100) DEFAULT NULL,
+  `ParticipationDate` date DEFAULT NULL,
+  `Organizer` varchar(100) DEFAULT NULL,
+  `Description` text DEFAULT NULL,
+  PRIMARY KEY (`ActivityID`),
+  KEY `StudentID` (`StudentID`),
+  CONSTRAINT `CoCurricularActivities_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.CoCurricularActivities: ~10 rows (approximately)
+INSERT INTO `CoCurricularActivities` (`ActivityID`, `StudentID`, `ActivityName`, `ParticipationDate`, `Organizer`, `Description`) VALUES
+	(1, 1, 'Debate Club', '2023-05-15', 'School Debate Society', 'Participated in a debate on current affairs'),
+	(2, 2, 'Chess Tournament', '2023-07-20', 'Chess Club', 'Competed in a chess tournament and secured 2nd place'),
+	(3, 3, 'Science Fair', '2023-09-10', 'School Science Department', 'Showcased a project on renewable energy'),
+	(4, 4, 'Drama Club Play', '2023-11-05', 'Drama Club', 'Acted as the lead role in a school play'),
+	(5, 5, 'Music Concert', '2024-01-25', 'School Music Department', 'Performed a solo piano piece at the concert'),
+	(6, 6, 'Community Service', '2024-03-08', 'Local Community Center', 'Volunteered for community cleanup'),
+	(7, 7, 'Sports Day', '2024-05-20', 'School Sports Committee', 'Participated in the 100m sprint and won 3rd place'),
+	(8, 8, 'Art Exhibition', '2024-08-12', 'Art Club', 'Displayed a series of paintings at the school exhibition'),
+	(9, 9, 'Coding Competition', '2024-10-07', 'Computer Science Club', 'Secured 1st place in a coding competition'),
+	(10, 10, 'Robotics Workshop', '2024-12-15', 'Robotics Club', 'Built a functional robot in the workshop');
+
+-- Dumping structure for function u647009962_imrpro.ConcatenateNames
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for table u647009962_imrpro.CounselingServices
+CREATE TABLE IF NOT EXISTS `CounselingServices` (
+  `CounselingID` int(11) NOT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `CounselorID` int(11) DEFAULT NULL,
+  `CounselingDate` date DEFAULT NULL,
+  `CounselingType` varchar(50) DEFAULT NULL,
+  `Notes` text DEFAULT NULL,
+  PRIMARY KEY (`CounselingID`),
+  KEY `StudentID` (`StudentID`),
+  KEY `CounselorID` (`CounselorID`),
+  CONSTRAINT `CounselingServices_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`),
+  CONSTRAINT `CounselingServices_ibfk_2` FOREIGN KEY (`CounselorID`) REFERENCES `UserCredentials` (`UserID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.CounselingServices: ~10 rows (approximately)
+INSERT INTO `CounselingServices` (`CounselingID`, `StudentID`, `CounselorID`, `CounselingDate`, `CounselingType`, `Notes`) VALUES
+	(1, 1, 11, '2024-01-09', 'Individual', 'First counseling session for student 101'),
+	(2, 2, 11, '2024-01-10', 'Group', 'Group counseling for students 102 and 103'),
+	(3, 3, 11, '2024-01-11', 'Individual', 'Follow-up session for student 103'),
+	(4, 4, 11, '2024-01-12', 'Individual', 'Initial counseling for student 104'),
+	(5, 5, 11, '2024-01-13', 'Group', 'Group counseling for students 105, 106, and 107'),
+	(6, 6, 11, '2024-01-14', 'Individual', 'Follow-up session for student 106'),
+	(7, 7, 11, '2024-01-15', 'Individual', 'First counseling session for student 107'),
+	(8, 8, 11, '2024-01-16', 'Group', 'Group counseling for students 108, 109, and 110'),
+	(9, 9, 11, '2024-01-17', 'Individual', 'Initial counseling for student 109'),
+	(10, 10, 11, '2024-01-18', 'Individual', 'Follow-up session for student 110');
+
+-- Dumping structure for table u647009962_imrpro.CourseDetails
+CREATE TABLE IF NOT EXISTS `CourseDetails` (
+  `CourseCode` varchar(20) NOT NULL,
+  `CourseName` varchar(100) DEFAULT NULL,
+  `Credits` int(11) DEFAULT NULL,
+  `Department` varchar(50) DEFAULT NULL,
+  `Description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`CourseCode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.CourseDetails: ~10 rows (approximately)
+INSERT INTO `CourseDetails` (`CourseCode`, `CourseName`, `Credits`, `Department`, `Description`) VALUES
+	('ART208', 'Art History', 3, 'Art', 'Study of art movements and their historical impact'),
+	('BIO307', 'Molecular Biology', 4, 'Biology', 'Exploration of cell biology and molecular genetics'),
+	('CHE204', 'Organic Chemistry', 3, 'Chemistry', 'Study of organic compounds and their reactions'),
+	('CSC101', 'Introduction to Computer Science', 4, 'Computer Science', 'Basic concepts and fundamentals of computer science'),
+	('ENG105', 'English Literature', 3, 'English', 'Survey of major works and movements in English literature'),
+	('HIS206', 'World History', 3, 'History', 'Comprehensive overview of global historical events'),
+	('MTH202', 'Advanced Mathematics', 3, 'Mathematics', 'In-depth study of algebra, calculus, and geometry'),
+	('PHY303', 'Physics III', 4, 'Physics', 'Advanced topics in theoretical and applied physics'),
+	('PSY309', 'Psychology of Learning', 3, 'Psychology', 'Examination of learning theories and cognitive development'),
+	('SOC210', 'Sociology Fundamentals', 3, 'Sociology', 'Introduction to the study of social behavior and society');
+
+-- Dumping structure for table u647009962_imrpro.CourseEnrollment
+CREATE TABLE IF NOT EXISTS `CourseEnrollment` (
+  `EnrollmentID` int(11) NOT NULL AUTO_INCREMENT,
+  `StudentID` int(11) DEFAULT NULL,
+  `CourseCode` varchar(20) DEFAULT NULL,
+  `EnrollmentDate` date DEFAULT NULL,
+  `EnrollmentStatus` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`EnrollmentID`),
+  KEY `StudentID` (`StudentID`),
+  KEY `CourseCode` (`CourseCode`),
+  CONSTRAINT `CourseEnrollment_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`),
+  CONSTRAINT `CourseEnrollment_ibfk_2` FOREIGN KEY (`CourseCode`) REFERENCES `CourseDetails` (`CourseCode`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.CourseEnrollment: ~10 rows (approximately)
+INSERT INTO `CourseEnrollment` (`EnrollmentID`, `StudentID`, `CourseCode`, `EnrollmentDate`, `EnrollmentStatus`) VALUES
+	(1, 1, 'ART208', '2024-01-09', 'Enrolled'),
+	(2, 2, 'BIO307', '2024-01-09', 'Enrolled'),
+	(3, 3, 'CHE204', '2024-01-09', 'Enrolled'),
+	(4, 4, 'CSC101', '2024-01-09', 'Enrolled'),
+	(5, 5, 'ENG105', '2024-01-09', 'Enrolled'),
+	(6, 6, 'HIS206', '2024-01-09', 'Enrolled'),
+	(7, 7, 'MTH202', '2024-01-09', 'Enrolled'),
+	(8, 8, 'PHY303', '2024-01-09', 'Enrolled'),
+	(9, 9, 'PSY309', '2024-01-09', 'Enrolled'),
+	(10, 10, 'SOC210', '2024-01-09', 'Enrolled');
+
+-- Dumping structure for procedure u647009962_imrpro.DeleteCoCurricularActivity
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for table u647009962_imrpro.EmergencyContact
+CREATE TABLE IF NOT EXISTS `EmergencyContact` (
+  `EmergencyContactID` int(11) NOT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `EmergencyContactName` varchar(100) DEFAULT NULL,
+  `Relationship` varchar(50) DEFAULT NULL,
+  `EmergencyContactNumber` varchar(15) DEFAULT NULL,
+  `EmergencyEmail` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`EmergencyContactID`),
+  KEY `StudentID` (`StudentID`),
+  CONSTRAINT `EmergencyContact_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.EmergencyContact: ~10 rows (approximately)
+INSERT INTO `EmergencyContact` (`EmergencyContactID`, `StudentID`, `EmergencyContactName`, `Relationship`, `EmergencyContactNumber`, `EmergencyEmail`) VALUES
+	(1, 1, 'John Smith', 'Father', '9876543210', 'john.smith@email.com'),
+	(2, 2, 'Emily Johnson', 'Mother', '8765432109', 'emily.johnson@email.com'),
+	(3, 3, 'Michael Williams', 'Brother', '7654321098', 'michael.williams@email.com'),
+	(4, 4, 'Linda Brown', 'Sister', '6543210987', 'linda.brown@email.com'),
+	(5, 5, 'David Davis', 'Uncle', '5432109876', 'david.davis@email.com'),
+	(6, 6, 'Jennifer Miller', 'Aunt', '4321098765', 'jennifer.miller@email.com'),
+	(7, 7, 'Richard Wilson', 'Grandfather', '3210987654', 'richard.wilson@email.com'),
+	(8, 8, 'Barbara Moore', 'Grandmother', '2109876543', 'barbara.moore@email.com'),
+	(9, 9, 'Joseph Taylor', 'Cousin', '1098765432', 'joseph.taylor@email.com'),
+	(10, 10, 'Susan Anderson', 'Sister', '0987654321', 'susan.anderson@email.com');
+
+-- Dumping structure for table u647009962_imrpro.ExamDetails
+CREATE TABLE IF NOT EXISTS `ExamDetails` (
+  `ExamID` int(11) NOT NULL,
+  `ExamName` varchar(100) DEFAULT NULL,
+  `ExamDate` date DEFAULT NULL,
+  `ExamTime` time DEFAULT NULL,
+  `Venue` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ExamID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.ExamDetails: ~10 rows (approximately)
+INSERT INTO `ExamDetails` (`ExamID`, `ExamName`, `ExamDate`, `ExamTime`, `Venue`) VALUES
+	(1, 'Mathematics Midterm', '2024-02-15', '09:00:00', 'Room 101'),
+	(2, 'History Final Exam', '2024-03-20', '14:30:00', 'Auditorium A'),
+	(3, 'Physics Quiz', '2024-04-10', '11:15:00', 'Lab 202'),
+	(4, 'English Literature Exam', '2024-05-05', '10:00:00', 'Classroom 303'),
+	(5, 'Chemistry Practical Test', '2024-06-12', '13:45:00', 'Chemistry Lab'),
+	(6, 'Computer Science Coding Challenge', '2024-07-08', '15:30:00', 'Computer Lab'),
+	(7, 'Biology Midterm', '2024-08-18', '09:45:00', 'Biology Lab'),
+	(8, 'Geography Final Exam', '2024-09-22', '14:00:00', 'Room 201'),
+	(9, 'Economics Quiz', '2024-10-15', '12:30:00', 'Classroom 401'),
+	(10, 'Spanish Language Exam', '2024-11-28', '11:00:00', 'Language Lab');
+
+-- Dumping structure for table u647009962_imrpro.ExamResults
+CREATE TABLE IF NOT EXISTS `ExamResults` (
+  `ResultID` int(11) NOT NULL,
+  `ExamID` int(11) DEFAULT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `Grade` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`ResultID`),
+  KEY `ExamID` (`ExamID`),
+  KEY `StudentID` (`StudentID`),
+  CONSTRAINT `ExamResults_ibfk_1` FOREIGN KEY (`ExamID`) REFERENCES `ExamDetails` (`ExamID`),
+  CONSTRAINT `ExamResults_ibfk_2` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.ExamResults: ~10 rows (approximately)
+INSERT INTO `ExamResults` (`ResultID`, `ExamID`, `StudentID`, `Grade`) VALUES
+	(1, 1, 1, 'A'),
+	(2, 2, 2, 'B'),
+	(3, 3, 3, 'C'),
+	(4, 4, 4, 'D'),
+	(5, 5, 5, 'A'),
+	(6, 6, 6, 'B'),
+	(7, 7, 7, 'C'),
+	(8, 8, 8, 'D'),
+	(9, 9, 9, 'A'),
+	(10, 10, 10, 'B');
+
+-- Dumping structure for view u647009962_imrpro.FacultyStaffView
+-- Creating temporary table to overcome VIEW dependency errors
+CREATE TABLE `FacultyStaffView` (
+	`CourseCode` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+	`CourseName` VARCHAR(100) NULL COLLATE 'utf8mb4_unicode_ci',
+	`Credits` INT(11) NULL,
+	`Department` VARCHAR(50) NULL COLLATE 'utf8mb4_unicode_ci',
+	`StudentID` INT(11) NULL,
+	`AdmissionDate` DATE NULL,
+	`AdmissionStatus` VARCHAR(20) NULL COLLATE 'utf8mb4_unicode_ci',
+	`CurrentSemester` INT(11) NULL
+) ENGINE=MyISAM;
+
+-- Dumping structure for procedure u647009962_imrpro.GetBookDetailsByISBN
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for procedure u647009962_imrpro.GetExamResultsForStudent
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for procedure u647009962_imrpro.GetStudentDetails
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for procedure u647009962_imrpro.GetStudentDetailsByID
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for function u647009962_imrpro.GetUserAccountStatement
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for function u647009962_imrpro.GetUserBorrowHistory
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for table u647009962_imrpro.GPACalculations
+CREATE TABLE IF NOT EXISTS `GPACalculations` (
+  `GPAID` int(11) NOT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `Semester` int(11) DEFAULT NULL,
+  `GPA` decimal(3,2) DEFAULT NULL,
+  PRIMARY KEY (`GPAID`),
+  KEY `StudentID` (`StudentID`),
+  CONSTRAINT `GPACalculations_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.GPACalculations: ~10 rows (approximately)
+INSERT INTO `GPACalculations` (`GPAID`, `StudentID`, `Semester`, `GPA`) VALUES
+	(1, 1, 1, 3.75),
+	(2, 1, 2, 3.82),
+	(3, 2, 1, 3.60),
+	(4, 2, 2, 3.95),
+	(5, 3, 1, 3.45),
+	(6, 3, 2, 3.78),
+	(7, 4, 1, 3.92),
+	(8, 4, 2, 3.68),
+	(9, 5, 1, 3.75),
+	(10, 5, 2, 3.90);
+
+-- Dumping structure for procedure u647009962_imrpro.InsertAcademicDetails
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for table u647009962_imrpro.Item
+CREATE TABLE IF NOT EXISTS `Item` (
+  `ItemID` int(11) NOT NULL,
+  `ItemName` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ItemID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.Item: ~20 rows (approximately)
+INSERT INTO `Item` (`ItemID`, `ItemName`) VALUES
+	(1, 'The Great Gatsby'),
+	(2, 'Pride and Prejudice'),
+	(3, 'To Kill a Mockingbird'),
+	(4, '1984'),
+	(5, 'The Da Vinci Code'),
+	(6, 'The Hobbit'),
+	(7, 'Life of Pi'),
+	(8, 'Twilight'),
+	(9, 'Brave New World'),
+	(10, 'The Alchemist'),
+	(11, 'National Geographic - January 2022'),
+	(12, 'Time Magazine - February 2022'),
+	(13, 'Scientific American - March 2022'),
+	(14, 'Vogue - April 2022'),
+	(15, 'Sports Illustrated - May 2022'),
+	(16, 'People Magazine - June 2022'),
+	(17, 'Travel + Leisure - July 2022'),
+	(18, 'Architectural Digest - August 2022'),
+	(19, 'The Economist - September 2022'),
+	(20, 'Entertainment Weekly - October 2022');
+
+-- Dumping structure for view u647009962_imrpro.LecturerView
+-- Creating temporary table to overcome VIEW dependency errors
+CREATE TABLE `LecturerView` (
+	`ScheduleID` INT(11) NOT NULL,
+	`CourseCode` VARCHAR(20) NULL COLLATE 'utf8mb4_unicode_ci',
+	`ClassDate` DATE NULL,
+	`StartTime` TIME NULL,
+	`EndTime` TIME NULL,
+	`Location` VARCHAR(255) NULL COLLATE 'utf8mb4_unicode_ci',
+	`CourseName` VARCHAR(100) NULL COLLATE 'utf8mb4_unicode_ci',
+	`FirstName` VARCHAR(50) NULL COLLATE 'utf8mb4_unicode_ci',
+	`LastName` VARCHAR(50) NULL COLLATE 'utf8mb4_unicode_ci'
+) ENGINE=MyISAM;
+
+-- Dumping structure for table u647009962_imrpro.Loan
+CREATE TABLE IF NOT EXISTS `Loan` (
+  `LoanID` int(11) NOT NULL,
+  `UserID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`LoanID`),
+  KEY `UserID` (`UserID`),
+  CONSTRAINT `Loan_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `User` (`UserID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.Loan: ~10 rows (approximately)
+INSERT INTO `Loan` (`LoanID`, `UserID`) VALUES
+	(1, 1),
+	(2, 2),
+	(3, 3),
+	(4, 4),
+	(5, 5),
+	(6, 6),
+	(7, 7),
+	(8, 8),
+	(9, 9),
+	(10, 10);
+
+-- Dumping structure for table u647009962_imrpro.LogTable
+CREATE TABLE IF NOT EXISTS `LogTable` (
+  `LogID` int(11) NOT NULL AUTO_INCREMENT,
+  `TableName` varchar(255) DEFAULT NULL,
+  `Action` varchar(10) DEFAULT NULL,
+  `Timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`LogID`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.LogTable: ~10 rows (approximately)
+INSERT INTO `LogTable` (`LogID`, `TableName`, `Action`, `Timestamp`) VALUES
+	(1, 'Borrow', 'Login', '2024-01-09 11:04:07'),
+	(2, 'item', 'Login', '2024-01-09 11:04:07'),
+	(3, 'loan', 'Login', '2024-01-09 11:04:07'),
+	(4, 'logtable', 'Login', '2024-01-09 11:04:07'),
+	(5, 'magazine', 'Login', '2024-01-09 11:04:07'),
+	(6, 'return', 'Login', '2024-01-09 11:04:07'),
+	(7, 'user', 'Login', '2024-01-09 11:04:07'),
+	(8, 'return', 'Login', '2024-01-09 11:04:07'),
+	(9, 'UserViewItem', 'Login', '2024-01-09 11:04:07'),
+	(10, 'Loan', 'Login', '2024-01-09 11:04:07');
+
+-- Dumping structure for table u647009962_imrpro.Magazine
+CREATE TABLE IF NOT EXISTS `Magazine` (
+  `ItemID` int(11) NOT NULL,
+  `IssueNumber` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ItemID`),
+  CONSTRAINT `Magazine_ibfk_1` FOREIGN KEY (`ItemID`) REFERENCES `Item` (`ItemID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.Magazine: ~10 rows (approximately)
+INSERT INTO `Magazine` (`ItemID`, `IssueNumber`) VALUES
+	(11, 1),
+	(12, 2),
+	(13, 3),
+	(14, 4),
+	(15, 5),
+	(16, 6),
+	(17, 7),
+	(18, 8),
+	(19, 9),
+	(20, 10);
+
+-- Dumping structure for table u647009962_imrpro.NonACStudyRoom
+CREATE TABLE IF NOT EXISTS `NonACStudyRoom` (
+  `RoomID` int(11) NOT NULL,
+  PRIMARY KEY (`RoomID`),
+  CONSTRAINT `NonACStudyRoom_ibfk_1` FOREIGN KEY (`RoomID`) REFERENCES `StudyRoom` (`RoomID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.NonACStudyRoom: ~10 rows (approximately)
+INSERT INTO `NonACStudyRoom` (`RoomID`) VALUES
+	(1),
+	(2),
+	(3),
+	(4),
+	(5),
+	(6),
+	(7),
+	(8),
+	(9),
+	(10);
+
+-- Dumping structure for table u647009962_imrpro.NotificationsTable
+CREATE TABLE IF NOT EXISTS `NotificationsTable` (
+  `NotificationID` int(11) NOT NULL,
+  `UserID` int(11) DEFAULT NULL,
+  `NotificationContent` text DEFAULT NULL,
+  `Timestamp` datetime DEFAULT NULL,
+  `Status` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`NotificationID`),
+  KEY `UserID` (`UserID`),
+  CONSTRAINT `NotificationsTable_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UserCredentials` (`UserID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.NotificationsTable: ~10 rows (approximately)
+INSERT INTO `NotificationsTable` (`NotificationID`, `UserID`, `NotificationContent`, `Timestamp`, `Status`) VALUES
+	(1, 1, 'New message received', '2024-01-09 10:15:00', 'Unread'),
+	(2, 2, 'Task assigned to you', '2024-01-09 10:20:00', 'Pending'),
+	(3, 3, 'Meeting reminder', '2024-01-09 10:25:00', 'Unread'),
+	(4, 1, 'Payment processed successfully', '2024-01-09 10:30:00', 'Read'),
+	(5, 2, 'New friend request', '2024-01-09 10:35:00', 'Unread'),
+	(6, 3, 'Server maintenance scheduled', '2024-01-09 10:40:00', 'Unread'),
+	(7, 1, 'Product out of stock', '2024-01-09 10:45:00', 'Unread'),
+	(8, 2, 'Subscription renewed', '2024-01-09 10:50:00', 'Read'),
+	(9, 3, 'Task completed', '2024-01-09 10:55:00', 'Read'),
+	(10, 1, 'New feature announcement', '2024-01-09 11:00:00', 'Unread');
+
+-- Dumping structure for table u647009962_imrpro.PaymentRecords
+CREATE TABLE IF NOT EXISTS `PaymentRecords` (
+  `PaymentID` int(11) NOT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `FeeID` int(11) DEFAULT NULL,
+  `PaymentDate` date DEFAULT NULL,
+  `AmountPaid` decimal(10,2) DEFAULT NULL,
+  `PaymentMethod` varchar(50) DEFAULT NULL,
+  `TransactionID` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`PaymentID`),
+  KEY `StudentID` (`StudentID`),
+  KEY `FeeID` (`FeeID`),
+  CONSTRAINT `PaymentRecords_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`),
+  CONSTRAINT `PaymentRecords_ibfk_2` FOREIGN KEY (`FeeID`) REFERENCES `TuitionFees` (`FeeID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.PaymentRecords: ~10 rows (approximately)
+INSERT INTO `PaymentRecords` (`PaymentID`, `StudentID`, `FeeID`, `PaymentDate`, `AmountPaid`, `PaymentMethod`, `TransactionID`) VALUES
+	(1, 1, 1, '2024-01-09', 1500.00, 'Credit Card', 'TXN123'),
+	(2, 2, 2, '2024-01-10', 1200.00, 'Cash', 'TXN124'),
+	(3, 3, 3, '2024-01-11', 1300.00, 'PayPal', 'TXN125'),
+	(4, 4, 4, '2024-01-12', 1400.00, 'Bank Transfer', 'TXN126'),
+	(5, 5, 5, '2024-01-13', 1100.00, 'Credit Card', 'TXN127'),
+	(6, 6, 6, '2024-01-14', 1150.00, 'Cash', 'TXN128'),
+	(7, 7, 7, '2024-01-15', 1250.00, 'PayPal', 'TXN129'),
+	(8, 8, 8, '2024-01-16', 1050.00, 'Bank Transfer', 'TXN130'),
+	(9, 9, 9, '2024-01-17', 1350.00, 'Credit Card', 'TXN131'),
+	(10, 10, 10, '2024-01-18', 1000.00, 'Cash', 'TXN132');
+
+-- Dumping structure for table u647009962_imrpro.ProgramDetails
+CREATE TABLE IF NOT EXISTS `ProgramDetails` (
+  `ProgramCode` varchar(20) NOT NULL,
+  `ProgramName` varchar(100) DEFAULT NULL,
+  `Duration` int(11) DEFAULT NULL,
+  `Department` varchar(50) DEFAULT NULL,
+  `Description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ProgramCode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.ProgramDetails: ~10 rows (approximately)
+INSERT INTO `ProgramDetails` (`ProgramCode`, `ProgramName`, `Duration`, `Department`, `Description`) VALUES
+	('BSART', 'Bachelor of Science in Art', 4, 'Art', 'Combines theoretical and practical aspects of art and design.'),
+	('BSBA', 'Bachelor of Science in Business Administration', 4, 'Business', 'Provides knowledge in business management and operations.'),
+	('BSBIO', 'Bachelor of Science in Biology', 4, 'Biology', 'A program exploring biological sciences and life systems.'),
+	('BSCHEM', 'Bachelor of Science in Chemistry', 4, 'Chemistry', 'Involves the study of chemical reactions and properties.'),
+	('BSCS', 'Bachelor of Science in Computer Science', 4, 'Computer Science', 'A program focused on theoretical and practical aspects of computer science.'),
+	('BSEE', 'Bachelor of Science in Electrical Engineering', 4, 'Electrical Engineering', 'Focuses on the study of electrical systems and electronics.'),
+	('BSMAT', 'Bachelor of Science in Mathematics', 4, 'Mathematics', 'Focuses on advanced mathematics theories and applications.'),
+	('BSME', 'Bachelor of Science in Mechanical Engineering', 4, 'Mechanical Engineering', 'Covers the design and manufacturing of mechanical systems.'),
+	('BSPHY', 'Bachelor of Science in Physics', 4, 'Physics', 'Delves into the principles of matter and energy.'),
+	('BSPSY', 'Bachelor of Science in Psychology', 4, 'Psychology', 'A program dedicated to the study of the human mind and behavior.');
+
+-- Dumping structure for table u647009962_imrpro.RegistrationHistory
+CREATE TABLE IF NOT EXISTS `RegistrationHistory` (
+  `RegistrationHistoryID` int(11) NOT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `RegistrationDate` date DEFAULT NULL,
+  `RegistrationStatus` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`RegistrationHistoryID`),
+  KEY `StudentID` (`StudentID`),
+  CONSTRAINT `RegistrationHistory_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.RegistrationHistory: ~10 rows (approximately)
+INSERT INTO `RegistrationHistory` (`RegistrationHistoryID`, `StudentID`, `RegistrationDate`, `RegistrationStatus`) VALUES
+	(1, 1, '2021-01-15', 'Enrolled'),
+	(2, 2, '2021-02-20', 'Enrolled'),
+	(3, 3, '2021-03-25', 'Enrolled'),
+	(4, 4, '2021-04-30', 'Enrolled'),
+	(5, 5, '2021-05-15', 'Enrolled'),
+	(6, 6, '2021-06-20', 'Enrolled'),
+	(7, 7, '2021-07-25', 'Enrolled'),
+	(8, 8, '2021-08-30', 'Enrolled'),
+	(9, 9, '2021-09-15', 'Enrolled'),
+	(10, 10, '2021-10-20', 'Enrolled');
+
+-- Dumping structure for table u647009962_imrpro.Return
+CREATE TABLE IF NOT EXISTS `Return` (
+  `LoanID` int(11) NOT NULL,
+  `ReturnDate` date DEFAULT NULL,
+  `LoanStatus` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`LoanID`),
+  CONSTRAINT `Return_ibfk_1` FOREIGN KEY (`LoanID`) REFERENCES `Loan` (`LoanID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.Return: ~10 rows (approximately)
+INSERT INTO `Return` (`LoanID`, `ReturnDate`, `LoanStatus`) VALUES
+	(1, '2024-01-15', 'Returned'),
+	(2, '2024-02-20', 'Returned'),
+	(3, '2024-03-25', 'Returned'),
+	(4, '2024-04-10', 'Returned'),
+	(5, '2024-05-05', 'Returned'),
+	(6, '2024-06-15', 'Returned'),
+	(7, '2024-07-20', 'Returned'),
+	(8, '2024-08-25', 'Returned'),
+	(9, '2024-09-10', 'Returned'),
+	(10, '2024-10-05', 'Returned');
+
+-- Dumping structure for table u647009962_imrpro.ScholarshipInformation
+CREATE TABLE IF NOT EXISTS `ScholarshipInformation` (
+  `ScholarshipID` int(11) NOT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `ScholarshipName` varchar(100) DEFAULT NULL,
+  `AmountAwarded` decimal(10,2) DEFAULT NULL,
+  `AwardDate` date DEFAULT NULL,
+  `ExpiryDate` date DEFAULT NULL,
+  PRIMARY KEY (`ScholarshipID`),
+  KEY `StudentID` (`StudentID`),
+  CONSTRAINT `ScholarshipInformation_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.ScholarshipInformation: ~10 rows (approximately)
+INSERT INTO `ScholarshipInformation` (`ScholarshipID`, `StudentID`, `ScholarshipName`, `AmountAwarded`, `AwardDate`, `ExpiryDate`) VALUES
+	(1, 1, 'Academic Excellence Scholarship', 1000.00, '2024-01-15', '2024-12-31'),
+	(2, 2, 'Leadership Award', 800.00, '2024-02-01', '2024-12-31'),
+	(3, 3, 'Community Service Scholarship', 1200.00, '2024-03-10', '2024-12-31'),
+	(4, 4, 'Sports Merit Scholarship', 900.00, '2024-04-05', '2024-12-31'),
+	(5, 5, 'Artistic Talent Award', 1100.00, '2024-05-20', '2024-12-31'),
+	(6, 6, 'Science Innovator Grant', 1500.00, '2024-06-15', '2024-12-31'),
+	(7, 7, 'Technology Pioneer Scholarship', 1300.00, '2024-07-25', '2024-12-31'),
+	(8, 8, 'Literature Enthusiast Award', 700.00, '2024-08-30', '2024-12-31'),
+	(9, 9, 'Engineering Discovery Grant', 1400.00, '2024-09-10', '2024-12-31'),
+	(10, 10, 'Mathematics Mastery Scholarship', 950.00, '2024-10-20', '2024-12-31');
+
+-- Dumping structure for table u647009962_imrpro.StudentDetails
+CREATE TABLE IF NOT EXISTS `StudentDetails` (
+  `StudentID` int(11) NOT NULL,
+  `FirstName` varchar(50) DEFAULT NULL,
+  `LastName` varchar(50) DEFAULT NULL,
+  `Address` varchar(255) DEFAULT NULL,
+  `ContactNumber` varchar(15) DEFAULT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  `DateOfBirth` date DEFAULT NULL,
+  `Gender` varchar(10) DEFAULT NULL,
+  `NationalID` varchar(20) DEFAULT NULL,
+  `PassportNumber` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`StudentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.StudentDetails: ~10 rows (approximately)
+INSERT INTO `StudentDetails` (`StudentID`, `FirstName`, `LastName`, `Address`, `ContactNumber`, `Email`, `DateOfBirth`, `Gender`, `NationalID`, `PassportNumber`) VALUES
+	(1, 'Alice', 'Smith', '123 Apple St, New York', '1234567890', 'alice.smith@email.com', '2001-05-21', 'Female', 'ID123456', 'PP123456'),
+	(2, 'Bob', 'Johnson', '456 Banana Ave, Los Angeles', '2345678901', 'bob.johnson@email.com', '2002-06-22', 'Male', 'ID234567', 'PP234567'),
+	(3, 'Carol', 'Williams', '789 Cherry Blvd, Chicago', '3456789012', 'carol.williams@email.com', '2003-07-23', 'Female', 'ID345678', 'PP345678'),
+	(4, 'David', 'Brown', '101 Grape Road, Houston', '4567890123', 'david.brown@email.com', '2004-08-24', 'Male', 'ID456789', 'PP456789'),
+	(5, 'Eve', 'Davis', '202 Kiwi Lane, Phoenix', '5678901234', 'eve.davis@email.com', '2005-09-25', 'Female', 'ID567890', 'PP567890'),
+	(6, 'Frank', 'Miller', '303 Lemon Street, Philadelphia', '6789012345', 'frank.miller@email.com', '2006-10-26', 'Male', 'ID678901', 'PP678901'),
+	(7, 'Grace', 'Wilson', '404 Lime Road, San Antonio', '7890123456', 'grace.wilson@email.com', '2007-11-27', 'Female', 'ID789012', 'PP789012'),
+	(8, 'Henry', 'Moore', '505 Mango Avenue, San Diego', '8901234567', 'henry.moore@email.com', '2008-12-28', 'Male', 'ID890123', 'PP890123'),
+	(9, 'Ivy', 'Taylor', '606 Melon Blvd, Dallas', '9012345678', 'ivy.taylor@email.com', '2009-01-29', 'Female', 'ID901234', 'PP901234'),
+	(10, 'Jack', 'Anderson', '707 Nectarine Street, San Jose', '0123456789', 'jack.anderson@email.com', '2010-02-20', 'Male', 'ID012345', 'PP012345');
+
+-- Dumping structure for table u647009962_imrpro.StudentEnrollment
+CREATE TABLE IF NOT EXISTS `StudentEnrollment` (
+  `EnrollmentID` int(11) NOT NULL,
+  `ExamID` int(11) DEFAULT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `EnrollmentStatus` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`EnrollmentID`),
+  KEY `ExamID` (`ExamID`),
+  KEY `StudentID` (`StudentID`),
+  CONSTRAINT `StudentEnrollment_ibfk_1` FOREIGN KEY (`ExamID`) REFERENCES `ExamDetails` (`ExamID`),
+  CONSTRAINT `StudentEnrollment_ibfk_2` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.StudentEnrollment: ~10 rows (approximately)
+INSERT INTO `StudentEnrollment` (`EnrollmentID`, `ExamID`, `StudentID`, `EnrollmentStatus`) VALUES
+	(1, 1, 1, 'Enrolled'),
+	(2, 2, 2, 'Enrolled'),
+	(3, 3, 3, 'Enrolled'),
+	(4, 4, 4, 'Enrolled'),
+	(5, 5, 5, 'Enrolled'),
+	(6, 6, 6, 'Disenrolled'),
+	(7, 7, 7, 'Disenrolled'),
+	(8, 8, 8, 'Enrolled'),
+	(9, 9, 9, 'Enrolled'),
+	(10, 10, 10, 'Enrolled');
+
+-- Dumping structure for table u647009962_imrpro.StudentGrades
+CREATE TABLE IF NOT EXISTS `StudentGrades` (
+  `GradeID` int(11) NOT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `CourseCode` varchar(20) DEFAULT NULL,
+  `CriteriaID` int(11) DEFAULT NULL,
+  `Score` int(11) DEFAULT NULL,
+  PRIMARY KEY (`GradeID`),
+  KEY `StudentID` (`StudentID`),
+  KEY `CourseCode` (`CourseCode`),
+  CONSTRAINT `StudentGrades_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `StudentDetails` (`StudentID`),
+  CONSTRAINT `StudentGrades_ibfk_2` FOREIGN KEY (`CourseCode`) REFERENCES `CourseDetails` (`CourseCode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.StudentGrades: ~10 rows (approximately)
+INSERT INTO `StudentGrades` (`GradeID`, `StudentID`, `CourseCode`, `CriteriaID`, `Score`) VALUES
+	(1, 1, 'ART208', 1, 90),
+	(2, 2, 'BIO307', 1, 85),
+	(3, 3, 'CHE204', 2, 92),
+	(4, 4, 'CSC101', 2, 78),
+	(5, 5, 'ENG105', 1, 88),
+	(6, 6, 'HIS206', 2, 95),
+	(7, 7, 'MTH202', 2, 80),
+	(8, 8, 'PHY303', 1, 91),
+	(9, 9, 'PSY309', 2, 87),
+	(10, 10, 'SOC210', 1, 89);
+
+-- Dumping structure for table u647009962_imrpro.StudyRoom
+CREATE TABLE IF NOT EXISTS `StudyRoom` (
+  `RoomID` int(11) NOT NULL,
+  `Location` varchar(255) DEFAULT NULL,
+  `OpeningHours` varchar(255) DEFAULT NULL,
+  `Features` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`RoomID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.StudyRoom: ~20 rows (approximately)
+INSERT INTO `StudyRoom` (`RoomID`, `Location`, `OpeningHours`, `Features`) VALUES
+	(1, 'Library', '9:00 AM - 5:00 PM', 'Wi-Fi, Whiteboard'),
+	(2, 'Student Center', '10:00 AM - 7:00 PM', 'Quiet Environment'),
+	(3, 'Science Building', '8:00 AM - 6:00 PM', 'Computers, Projectors'),
+	(4, 'Main Campus', '7:30 AM - 9:00 PM', 'Printers, Charging Stations'),
+	(5, 'Arts Building', '12:00 PM - 8:00 PM', 'Art Supplies, Natural Light'),
+	(6, 'Engineering Center', '9:00 AM - 6:30 PM', 'Collaboration Spaces'),
+	(7, 'Business School', '8:30 AM - 7:00 PM', 'Study Desks, Coffee Machine'),
+	(8, 'Medical Center', '10:00 AM - 5:30 PM', 'Quiet Rooms, Medical Resources'),
+	(9, 'Technology Hub', '11:00 AM - 8:00 PM', 'Tech Gadgets, VR Stations'),
+	(10, 'Sports Complex', '6:00 AM - 10:00 PM', 'Fitness Equipment, Healthy Snacks'),
+	(11, 'Research Room K', '10:00 AM - 7:00 PM', 'Reference materials, Quiet environment'),
+	(12, 'Artistic Study Room L', '12:00 PM - 6:00 PM', 'Easels, Natural light'),
+	(13, 'Language Learning Room M', '2:00 PM - 9:00 PM', 'Language resources, Audio equipment'),
+	(14, 'Virtual Reality Room N', '1:00 PM - 8:00 PM', 'VR headsets, Interactive displays'),
+	(15, 'STEM Study Room O', '9:00 AM - 5:00 PM', 'Science and Math resources, Lab tables'),
+	(16, 'History Room P', '11:00 AM - 7:00 PM', 'Historical texts, Comfortable seating'),
+	(17, 'Outdoor Study Area Q', '8:00 AM - 9:00 PM', 'Picnic tables, Wi-Fi coverage'),
+	(18, 'Music Practice Room R', '3:00 PM - 10:00 PM', 'Instruments, Soundproofing'),
+	(19, 'Fitness Study Room S', '6:00 AM - 8:00 AM', 'Exercise equipment, Study desks'),
+	(20, 'Green Study Room T', '9:00 AM - 6:00 PM', 'Plants, Eco-friendly environment');
+
+-- Dumping structure for table u647009962_imrpro.TuitionFees
+CREATE TABLE IF NOT EXISTS `TuitionFees` (
+  `FeeID` int(11) NOT NULL,
+  `CourseCode` varchar(20) DEFAULT NULL,
+  `FeeAmount` decimal(10,2) DEFAULT NULL,
+  `DueDate` date DEFAULT NULL,
+  PRIMARY KEY (`FeeID`),
+  KEY `CourseCode` (`CourseCode`),
+  CONSTRAINT `TuitionFees_ibfk_1` FOREIGN KEY (`CourseCode`) REFERENCES `CourseDetails` (`CourseCode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.TuitionFees: ~10 rows (approximately)
+INSERT INTO `TuitionFees` (`FeeID`, `CourseCode`, `FeeAmount`, `DueDate`) VALUES
+	(1, 'CSC101', 1500.00, '2024-03-15'),
+	(2, 'MTH202', 1200.00, '2024-04-10'),
+	(3, 'PHY303', 1300.00, '2024-05-05'),
+	(4, 'CHE204', 1400.00, '2024-06-20'),
+	(5, 'ENG105', 1100.00, '2024-07-15'),
+	(6, 'HIS206', 1150.00, '2024-08-10'),
+	(7, 'BIO307', 1250.00, '2024-09-05'),
+	(8, 'ART208', 1050.00, '2024-10-20'),
+	(9, 'PSY309', 1350.00, '2024-11-15'),
+	(10, 'SOC210', 1000.00, '2024-12-10');
+
+-- Dumping structure for procedure u647009962_imrpro.UpdateAccessDetails
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for procedure u647009962_imrpro.UpdateStudentAddress
+DELIMITER //
+//
+DELIMITER ;
+
+-- Dumping structure for table u647009962_imrpro.User
+CREATE TABLE IF NOT EXISTS `User` (
+  `UserID` int(11) NOT NULL,
+  `UserSince` date DEFAULT NULL,
+  `AccessLevelID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`UserID`),
+  KEY `AccessLevelID` (`AccessLevelID`),
+  CONSTRAINT `User_ibfk_1` FOREIGN KEY (`AccessLevelID`) REFERENCES `AccessLevels` (`AccessLevelID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.User: ~10 rows (approximately)
+INSERT INTO `User` (`UserID`, `UserSince`, `AccessLevelID`) VALUES
+	(1, '2021-01-15', 1),
+	(2, '2021-02-20', 2),
+	(3, '2021-03-25', 3),
+	(4, '2021-04-30', 4),
+	(5, '2021-05-15', 5),
+	(6, '2021-06-20', 6),
+	(7, '2021-07-25', 7),
+	(8, '2021-08-30', 8),
+	(9, '2021-09-15', 9),
+	(10, '2021-10-20', 10);
+
+-- Dumping structure for table u647009962_imrpro.UserCredentials
+CREATE TABLE IF NOT EXISTS `UserCredentials` (
+  `UserID` int(11) NOT NULL,
+  `Username` varchar(50) DEFAULT NULL,
+  `PasswordHash` varchar(255) DEFAULT NULL,
+  `UserType` int(11) DEFAULT NULL,
+  PRIMARY KEY (`UserID`),
+  KEY `UserType` (`UserType`),
+  CONSTRAINT `UserCredentials_ibfk_1` FOREIGN KEY (`UserType`) REFERENCES `AccessLevels` (`AccessLevelID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.UserCredentials: ~10 rows (approximately)
+INSERT INTO `UserCredentials` (`UserID`, `Username`, `PasswordHash`, `UserType`) VALUES
+	(1, 'alice_student', 'hashed_password_1', 1),
+	(2, 'bob_faculty', 'hashed_password_2', 2),
+	(3, 'carol_staff', 'hashed_password_3', 3),
+	(4, 'admin1', 'hashed_password_admin1', 4),
+	(5, 'it_support_1', 'hashed_password_it1', 5),
+	(6, 'librarian_123', 'hashed_password_lib123', 6),
+	(7, 'researcher_789', 'hashed_password_research789', 7),
+	(8, 'visitor_xyz', 'hashed_password_visitor', 8),
+	(9, 'contractor_456', 'hashed_password_contractor456', 9),
+	(10, 'alumni_abcd', 'hashed_password_alumni', 10),
+	(11, 'anne', 'hashed_password_anne', 11);
+
+-- Dumping structure for table u647009962_imrpro.UserMessages
+CREATE TABLE IF NOT EXISTS `UserMessages` (
+  `MessageID` int(11) NOT NULL,
+  `SenderID` int(11) DEFAULT NULL,
+  `ReceiverID` int(11) DEFAULT NULL,
+  `MessageContent` text DEFAULT NULL,
+  `Timestamp` datetime DEFAULT NULL,
+  `Status` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`MessageID`),
+  KEY `SenderID` (`SenderID`),
+  KEY `ReceiverID` (`ReceiverID`),
+  CONSTRAINT `UserMessages_ibfk_1` FOREIGN KEY (`SenderID`) REFERENCES `UserCredentials` (`UserID`),
+  CONSTRAINT `UserMessages_ibfk_2` FOREIGN KEY (`ReceiverID`) REFERENCES `UserCredentials` (`UserID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.UserMessages: ~10 rows (approximately)
+INSERT INTO `UserMessages` (`MessageID`, `SenderID`, `ReceiverID`, `MessageContent`, `Timestamp`, `Status`) VALUES
+	(1, 1, 1, 'Hello there!', '2024-01-09 11:00:00', 'Read'),
+	(2, 1, 2, 'Hi! How are you?', '2024-01-09 11:05:00', 'Unread'),
+	(3, 1, 3, 'Meeting tomorrow?', '2024-01-09 11:10:00', 'Unread'),
+	(4, 1, 4, 'Sure, what time?', '2024-01-09 11:15:00', 'Unread'),
+	(5, 1, 5, 'I will be late.', '2024-01-09 11:20:00', 'Read'),
+	(6, 1, 6, 'No problem. See you then!', '2024-01-09 11:25:00', 'Unread'),
+	(7, 1, 7, 'Did you get my email?', '2024-01-09 11:30:00', 'Read'),
+	(8, 1, 8, 'Yes, I did. I will reply soon.', '2024-01-09 11:35:00', 'Unread'),
+	(9, 1, 9, 'Looking forward to it!', '2024-01-09 11:40:00', 'Read'),
+	(10, 1, 10, 'See you tomorrow!', '2024-01-09 11:45:00', 'Unread');
+
+-- Dumping structure for table u647009962_imrpro.UserReserveStudyRoom
+CREATE TABLE IF NOT EXISTS `UserReserveStudyRoom` (
+  `UserID` int(11) NOT NULL,
+  `RoomID` int(11) NOT NULL,
+  `ReserveDate` date DEFAULT NULL,
+  PRIMARY KEY (`UserID`,`RoomID`),
+  KEY `RoomID` (`RoomID`),
+  CONSTRAINT `UserReserveStudyRoom_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `User` (`UserID`),
+  CONSTRAINT `UserReserveStudyRoom_ibfk_2` FOREIGN KEY (`RoomID`) REFERENCES `StudyRoom` (`RoomID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.UserReserveStudyRoom: ~10 rows (approximately)
+INSERT INTO `UserReserveStudyRoom` (`UserID`, `RoomID`, `ReserveDate`) VALUES
+	(1, 12, '2024-01-08'),
+	(2, 3, '2024-01-17'),
+	(4, 16, '2024-01-17'),
+	(5, 1, '2024-01-17'),
+	(5, 18, '2024-01-17'),
+	(6, 17, '2024-01-17'),
+	(7, 17, '2024-01-17'),
+	(8, 16, '2024-01-17'),
+	(9, 6, '2024-01-17'),
+	(10, 1, '2024-01-23');
+
+-- Dumping structure for view u647009962_imrpro.UserView
+-- Creating temporary table to overcome VIEW dependency errors
+CREATE TABLE `UserView` (
+	`StudentID` INT(11) NOT NULL,
+	`FirstName` VARCHAR(50) NULL COLLATE 'utf8mb4_unicode_ci',
+	`LastName` VARCHAR(50) NULL COLLATE 'utf8mb4_unicode_ci',
+	`CourseEnrolled` VARCHAR(50) NULL COLLATE 'utf8mb4_unicode_ci',
+	`Program` VARCHAR(50) NULL COLLATE 'utf8mb4_unicode_ci',
+	`AdmissionDate` DATE NULL
+) ENGINE=MyISAM;
+
+-- Dumping structure for table u647009962_imrpro.UserViewItem
+CREATE TABLE IF NOT EXISTS `UserViewItem` (
+  `UserID` int(11) NOT NULL,
+  `ItemID` int(11) NOT NULL,
+  PRIMARY KEY (`UserID`,`ItemID`),
+  KEY `ItemID` (`ItemID`),
+  CONSTRAINT `UserViewItem_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `User` (`UserID`),
+  CONSTRAINT `UserViewItem_ibfk_2` FOREIGN KEY (`ItemID`) REFERENCES `Item` (`ItemID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table u647009962_imrpro.UserViewItem: ~20 rows (approximately)
+INSERT INTO `UserViewItem` (`UserID`, `ItemID`) VALUES
+	(1, 1),
+	(1, 2),
+	(2, 3),
+	(2, 4),
+	(3, 5),
+	(3, 6),
+	(4, 7),
+	(4, 8),
+	(5, 9),
+	(5, 10),
+	(6, 11),
+	(6, 12),
+	(7, 13),
+	(7, 14),
+	(8, 15),
+	(8, 16),
+	(9, 17),
+	(9, 18),
+	(10, 19),
+	(10, 20);
+
+-- Dumping structure for trigger u647009962_imrpro.trg_enforce_unique_username
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_enforce_unique_username 
+BEFORE INSERT ON AccessDetails
+FOR EACH ROW 
+BEGIN
+    IF (SELECT COUNT(*) FROM AccessDetails WHERE Username = NEW.Username) > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Username must be unique';
+    END IF;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger u647009962_imrpro.trg_prevent_accessdetails_update_if_user_type_admin
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_prevent_accessdetails_update_if_user_type_admin 
+BEFORE UPDATE ON AccessDetails
+FOR EACH ROW 
+BEGIN
+    IF NEW.AccountStatus = 'Admin' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot update access details for Admin';
+    END IF;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger u647009962_imrpro.trg_prevent_item_deletion_if_borrowing_records_exist
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_prevent_item_deletion_if_borrowing_records_exist
+BEFORE DELETE ON Item
+FOR EACH ROW
+BEGIN
+    -- Prevent deletion if related BorrowingRecords exist
+    IF (SELECT COUNT(*) FROM BorrowingRecords WHERE ItemID = OLD.ItemID) > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete item with active borrowings';
+    END IF;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger u647009962_imrpro.trg_prevent_nonac_studyroom_reservation_if_user_type_student
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_prevent_nonac_studyroom_reservation_if_user_type_student
+BEFORE INSERT ON UserReserveStudyRoom
+FOR EACH ROW
+BEGIN
+    -- Prevent reservation if user type is 'Student' for non-AC study room
+    IF NEW.UserID = 'Student' AND NEW.RoomID != 'AC' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Non-AC study room reservation not allowed for students';
+    END IF;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger u647009962_imrpro.trg_prevent_user_deletion_if_borrowing_records_exist
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_prevent_user_deletion_if_borrowing_records_exist
+BEFORE DELETE ON User
+FOR EACH ROW
+BEGIN
+    -- Prevent deletion if related BorrowingRecords exist
+    IF (SELECT COUNT(*) FROM BorrowingRecords WHERE UserID = OLD.UserID) > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete user with active borrowings';
+    END IF;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger u647009962_imrpro.trg_update_access_levels_on_accessdetails_insert
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_update_access_levels_on_accessdetails_insert 
+AFTER INSERT ON AccessDetails
+FOR EACH ROW 
+BEGIN
+    UPDATE AccessLevels
+    SET Level = NEW.AccountStatus
+    WHERE AccessLevels.AccessID = NEW.AccessID;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger u647009962_imrpro.trg_update_announcements_table_on_insert
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_update_announcements_table_on_insert
+BEFORE INSERT ON AnnouncementsTable
+FOR EACH ROW
+BEGIN
+    -- Update announcements table based on insert
+    SET NEW.AnnouncementContent = CONCAT('Modified: ', NEW.AnnouncementContent);
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger u647009962_imrpro.trg_update_class_schedules_on_course_details_update
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_update_class_schedules_on_course_details_update
+AFTER UPDATE ON CourseDetails
+FOR EACH ROW
+BEGIN
+    -- Update ClassSchedules based on course changes
+    UPDATE ClassSchedules
+    SET Schedule = NEW.Description
+    WHERE CourseID = NEW.CourseCode;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger u647009962_imrpro.trg_update_cocurricular_activities_on_user_update
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_update_cocurricular_activities_on_user_update
+AFTER UPDATE ON User
+FOR EACH ROW
+BEGIN
+    -- Update Co-Curricular Activities based on user changes
+    UPDATE CoCurricularActivities
+    SET ActivityStatus = NEW.AccessLevelID
+    WHERE UserID = NEW.UserID;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger u647009962_imrpro.trg_update_exam_details_on_course_details_update
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_update_exam_details_on_course_details_update
+AFTER UPDATE ON CourseDetails
+FOR EACH ROW
+BEGIN
+    -- Update ExamDetails based on course changes
+    UPDATE ExamDetails
+    SET ExamDate = NEW.Description
+    WHERE CourseID = NEW.CourseCode;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger u647009962_imrpro.trg_update_program_details_on_course_details_update
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_update_program_details_on_course_details_update
+AFTER UPDATE ON CourseDetails
+FOR EACH ROW
+BEGIN
+    -- Update ProgramDetails based on course changes
+    UPDATE ProgramDetails
+    SET ProgramName = NEW.CourseName
+    WHERE ProgramID = NEW.CourseCode;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger u647009962_imrpro.trg_update_userreservestudyroom_reservedate_on_update
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_update_userreservestudyroom_reservedate_on_update
+AFTER UPDATE ON UserReserveStudyRoom
+FOR EACH ROW
+BEGIN
+    -- Update ReserveDate based on changes
+    UPDATE UserReserveStudyRoom
+    SET ReserveDate = NEW.ReserveDate
+    WHERE ReservationID = NEW.RoomID;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Removing temporary table and create final VIEW structure
+DROP TABLE IF EXISTS `AdminView`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `AdminView` AS select `sd`.`StudentID` AS `StudentID_StudentDetails`,`sd`.`FirstName` AS `FirstName`,`sd`.`LastName` AS `LastName`,`sd`.`Address` AS `Address`,`sd`.`ContactNumber` AS `ContactNumber`,`sd`.`Email` AS `Email`,`ad`.`StudentID` AS `StudentID_AcademicDetails`,`ad`.`AcademicID` AS `AcademicID`,`ad`.`StudentID` AS `StudentID`,`ad`.`CourseEnrolled` AS `CourseEnrolled`,`ad`.`Program` AS `Program`,`ad`.`AdmissionDate` AS `AdmissionDate`,`ad`.`AdmissionStatus` AS `AdmissionStatus`,`ad`.`CurrentSemester` AS `CurrentSemester`,`ad`.`GPA` AS `GPA`,`ad`.`CreditsEarned` AS `CreditsEarned` from (`StudentDetails` `sd` join `AcademicDetails` `ad` on(`sd`.`StudentID` = `ad`.`StudentID`));
+
+-- Removing temporary table and create final VIEW structure
+DROP TABLE IF EXISTS `FacultyStaffView`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `FacultyStaffView` AS select `cd`.`CourseCode` AS `CourseCode`,`cd`.`CourseName` AS `CourseName`,`cd`.`Credits` AS `Credits`,`cd`.`Department` AS `Department`,`ad`.`StudentID` AS `StudentID`,`ad`.`AdmissionDate` AS `AdmissionDate`,`ad`.`AdmissionStatus` AS `AdmissionStatus`,`ad`.`CurrentSemester` AS `CurrentSemester` from ((`CourseDetails` `cd` join `CourseEnrollment` `ce` on(`cd`.`CourseCode` = `ce`.`CourseCode`)) join `AcademicDetails` `ad` on(`ad`.`StudentID` = `ce`.`StudentID`));
+
+-- Removing temporary table and create final VIEW structure
+DROP TABLE IF EXISTS `LecturerView`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `LecturerView` AS select `cs`.`ScheduleID` AS `ScheduleID`,`cs`.`CourseCode` AS `CourseCode`,`cs`.`ClassDate` AS `ClassDate`,`cs`.`StartTime` AS `StartTime`,`cs`.`EndTime` AS `EndTime`,`cs`.`Location` AS `Location`,`cd`.`CourseName` AS `CourseName`,`sd`.`FirstName` AS `FirstName`,`sd`.`LastName` AS `LastName` from ((`ClassSchedules` `cs` join `CourseDetails` `cd` on(`cs`.`CourseCode` = `cd`.`CourseCode`)) join `StudentDetails` `sd` on(`sd`.`StudentID` in (select `AcademicDetails`.`StudentID` from `AcademicDetails` where `AcademicDetails`.`CourseEnrolled` = `cs`.`CourseCode`)));
+
+-- Removing temporary table and create final VIEW structure
+DROP TABLE IF EXISTS `UserView`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `UserView` AS select `sd`.`StudentID` AS `StudentID`,`sd`.`FirstName` AS `FirstName`,`sd`.`LastName` AS `LastName`,`ad`.`CourseEnrolled` AS `CourseEnrolled`,`ad`.`Program` AS `Program`,`ad`.`AdmissionDate` AS `AdmissionDate` from (`StudentDetails` `sd` join `AcademicDetails` `ad` on(`sd`.`StudentID` = `ad`.`StudentID`));
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
